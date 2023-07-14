@@ -2,8 +2,9 @@
 
 Welcome to the Weekly Python Projects repository! This is where I share my Python projects that I complete each week. In this repository, you'll find a collection of diverse Python projects, ranging from simple scripts to more complex applications, showcasing my progress and growth as a Python developer.
 
-##History
-I started this challenge some time ago until i lost my pc. Finally retrieved everything and i think i should share it out to other developers and also to be able to easily retrieve in case of an accident.
+## History
+I started this challenge a while back before my computer crashed. I lost interest in persevering until I eventually managed to retrieve the data from the hard drive.I believe I should distribute it here for other developers to access and make it simple to retrieve in case of any accident.
+
 ## Motivation
 
 The motivation behind this repository is to document my journey of learning and exploring Python by challenging myself to complete a new project every week. By undertaking these projects, I aim to:
