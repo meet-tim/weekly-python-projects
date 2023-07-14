@@ -1,0 +1,190 @@
+{%extends 'accounts/base.html'%}
+{%load static%}
+{%block apartments%}active{%endblock%}
+{%block content%}      
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">{{house.description}}</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{%url 'home'%}">Home</a></li>
+                <li class="breadcrumb-item">Apartments</li>
+                <li class="breadcrumb-item active">Apartments  Details</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row bar">
+            <!-- LEFT COLUMN _________________________________________________________-->
+            <div class="col-lg-3">
+              <!-- MENUS AND FILTERS-->
+              <div class="panel panel-default sidebar-menu">
+                <div class="panel-heading">
+                  <h3 class="h4 panel-title">Categories</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="nav nav-pills flex-column text-sm category-menu">
+                    <li class="nav-item"><a href="{%url 'apartments'%}" class="nav-link {{all}} d-flex align-items-center justify-content-between">
+                      <span>All</span><span class="badge badge-secondary">{{all_count}}</span></a>
+                    </li>
+                    <li class="nav-item"><a href="{%url 'for_sale'%}" class="nav-link {{sale}} d-flex align-items-center justify-content-between">
+                      <span>For Sale</span><span class="badge badge-secondary">{{sale_count}}</span></a>
+                    </li>
+                    <li class="nav-item"><a href="{%url 'for_rent'%}" class="nav-link {{rent}} d-flex align-items-center justify-content-between">
+                      <span>For Rent </span><span class="badge badge-light">{{rent_count}}</span></a>
+                    </li>
+                    <li class="nav-item"><a href="{%url 'furnished'%}" class="nav-link {{furnished}} d-flex align-items-center justify-content-between">
+                      <span>Furnished </span><span class="badge badge-secondary">{{furnished_count}}</span></a>
+                    </li>
+                  </ul>
+                </div>-
+              </div>
+              
+              <div class="banner"><a href="shop-category.html">
+                <img src="{%static 'img/banner.jpg'%}" alt="sales 2014" class="img-fluid"></a></div>
+            </div>
+            
+            <div class="col-lg-9">
+              <p class="lead">Built purse maids cease her ham new seven among and. Pulled coming wooded tended it answer remain me be. So landlord by we unlocked sensible it. Fat cannot use denied excuse son law. Wisdom happen suffer common the appear ham beauty her had. Or belonging zealously existence as by resources.</p>
+              <p class="goToDescription"><a href="#details" class="scroll-to text-uppercase">Scroll to house details</a></p>
+              <div id="productMain" class="row">
+                <div class="col-sm-6">
+                  <div data-slider-id="1" class="owl-carousel shop-detail-carousel owl-loaded owl-drag">  
+                  <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(-690px, 0px, 0px); transition: all 0s ease 0s; width: 1035px;">
+                      {%for img in house.images_set.all%}
+                      <div class="owl-item" style="width: 345px;">
+                        <div> 
+                          <img src="{{img.image.url}}" alt="" class="img-fluid">
+                        </div>
+                      </div>
+                      {%endfor%}
+                    </div>
+                  </div>
+                  <div class="owl-nav disabled">
+                    <button type="button" role="presentation" class="owl-prev">
+                      <span aria-label="Previous">‹</span>
+                    </button>
+                    <button type="button" role="presentation" class="owl-next">
+                      <span aria-label="Next">›</span>
+                    </button>
+                  </div>
+                  <div class="owl-dots disabled">
+                  </div>
+                </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="box">
+                        <h3 class="text-center">Price</h3>
+
+                      <p class="price">{{house.price}}</p>
+                      <p class="text-center">
+                        
+                          <div class="box-simple">
+                            <div class="icon-outlined">
+                              
+                              <a href="tel:{{house.owner.phone}}">
+                                <i class="fa fa-phone"></i>
+                            </a>
+                          </div>
+                            <h3 class="h4">Contact</h3>
+                            <p>You can contact the owner on these available lines to make enquiries. Thank you for using appartments</p>
+                            <p><strong>{{house.owner.phone}}</strong></p>
+                          </div>
+                         
+                      </p>
+ 
+                  </div>
+                  <div data-slider-id="1" class="owl-thumbs">
+                    {%for img in house.images_set.all%}
+                    <button class="owl-thumb-item"><img src="{{img.image.url}}" alt="" class="img-fluid"></button>
+                   {%endfor%}
+                  <!-- add another image in future--> 
+                   </div>
+                </div>
+              </div>
+              <div id="details" class="box mb-4 mt-4">
+                <p></p>
+                <h4>House details</h4>
+                <p>{{house.description}}</p>
+                <h4>Location</h4>
+                <ul>
+                  <li>{{house.location}}</li>
+                </ul>
+                <h4>Rooms</h4>
+                <ul>
+                  <li>{{house.rooms}}</li>
+                  {%if house.garrage == True%}
+                  <li>Has garrage</li>
+                  {%endif%}
+                </ul>
+                <h4>Water Facility</h4>
+                <ul>
+                  {%for water in house.water%}
+                  <li>{{water}}</li>
+                  {%endfor%}
+                </ul>
+                <h4>Bath Room</h4>
+                <ul>
+                  <li>{{house.bathroom}}  bathroom</li>
+                  {%if house.no_of_bathrooms == 1 %}
+                  <li>{{house.no_of_bathrooms}} bathroom</li>
+                  {%else%}
+                  <li>{{house.no_of_bathrooms}} bathrooms</li>
+                  {%endif%}
+                </ul>
+                {%if house.furnishes%}
+                <h4>Furnishes</h4>
+                <p>{{house.furnishes}}</p>
+                {%endif%}
+                <blockquote class="blockquote">
+                  <p class="mb-0"><em></em> We hope the information regarding the apartment was helpful to you. If there is any more information you would want on this platform please let us know <a href="mailto:appartments20@gmail.com">appartments20@gmail.com</a>. We would like to know what our users want.</em></p>
+                </blockquote>
+              </div>
+              <div id="product-social" class="box social text-center mb-5 mt-5">
+                <h4 class="heading-light">Follow our pages here to get updates and special offers</h4>
+                <ul class="social list-inline">
+                  <li class="list-inline-item"><a href="#" data-animate-hover="pulse" class="external facebook"><i class="fa fa-facebook"></i></a></li>
+                  <li class="list-inline-item"><a href="#" data-animate-hover="pulse" class="external twitter"><i class="fa fa-twitter"></i></a></li>
+                  <li class="list-inline-item"><a href="#" data-animate-hover="pulse" class="external instagram"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+              </div>
+              {%if houses%}
+              <div class="row">
+                <div class="col-lg-3 col-md-6">
+                  <div class="box text-uppercase mt-0 mb-small">
+                    <h3>Most Viewed apartments</h3>
+                  </div>
+                </div>
+                {%for house in houses%}
+                <div class="col-lg-3 col-md-6">
+                  <div class="product">
+                    <div class="image"><a href="{%url 'house-detail' house.id%}">
+                      {% for img in product.images_set.all|slice:"1" %}
+                      <img src="{{img.image.url}}" alt="" class="img-fluid"></a>
+                      {%empty%}
+                      <div class="image"><img src="{%static 'images/appartment-logo.png'%}" alt="..." class="img-fluid"></div>
+                      {%endfor%}
+                    </div>
+                    <div class="text">
+                      <h3 class="h5"><a href="{%url 'house-detail' house.id%}">{{house.location}}</a></h3>
+                      <p class="price">house.price</p>
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>
+              {%endif%}
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endblock%}
+   

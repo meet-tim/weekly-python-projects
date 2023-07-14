@@ -1,0 +1,141 @@
+{%extends 'accounts/base.html'%}
+{%load static%}
+{%block apartments%}active{%endblock%}
+{%block content%}
+<div id="all">
+      <div id="heading-breadcrumbs">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">Apartments</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{%url 'home'%}">Home</a></li>
+                <li class="breadcrumb-item active">apartments</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="container">
+          <div class="row bar">
+            <div class="col-md-3">
+              <!-- MENUS AND FILTERS-->
+              <div class="panel panel-default sidebar-menu">
+                <div class="panel-heading">
+                  <h3 class="h4 panel-title">Categories</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="nav nav-pills flex-column text-sm category-menu">
+                    <li class="nav-item"><a href="{%url 'apartments'%}" class="nav-link {{all}} d-flex align-items-center justify-content-between">
+                      <span>All</span><span class="badge badge-secondary">{{all_count}}</span></a>
+                    </li>
+                    <li class="nav-item"><a href="{%url 'for_sale'%}" class="nav-link {{sale}} d-flex align-items-center justify-content-between">
+                      <span>For Sale</span><span class="badge badge-secondary">{{sale_count}}</span></a>
+                    </li>
+                    <li class="nav-item"><a href="{%url 'for_rent'%}" class="nav-link {{rent}} d-flex align-items-center justify-content-between">
+                      <span>For Rent </span><span class="badge badge-light">{{rent_count}}</span></a>
+                    </li>
+                    <li class="nav-item"><a href="{%url 'furnished'%}" class="nav-link {{furnished}} d-flex align-items-center justify-content-between">
+                      <span>Furnished </span><span class="badge badge-secondary">{{furnished_count}}</span></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="banner"><a href="shop-category.html"><img src="{%static 'img/banner.jpg'%}" alt="sales 2014" class="img-fluid"></a></div>
+            </div>
+            <div class="col-md-9">
+              <p class="text-muted lead">Check out the list of available houses we have collected for you. click on an apartment to view it details.</p>
+              
+                <div class="col-md-12">
+                <form action="{%url 'apartments'%}" method="GET">
+                {{filter.form}}
+                <button type="submit" class="btn btn-template-outlined"><i class="fa fa-search"></i>Find</button>
+              </form>
+              <hr>
+            </div>
+            <div class="row">
+            
+                {%for house in houses%}
+                <div class="col-lg-4 col-md-4">
+                  <div class="product">
+                    <div class="image">
+                    <a href="{%url 'house-detail' house.id%}">
+                      {% for img in house.images_set.all|slice:"1" %}
+                      <img src="{{img.image.url}}" alt="" class="img-fluid"></a>
+                      {%empty%}
+                      <div class="image"><img src="{%static 'images/appartment-logo.png'%}" alt="..." class="img-fluid"></div>
+                      {%endfor%}
+                    
+                     
+                  </a>    
+                </div>        
+                    <div class="text-left">
+                      <h4>{{house.description}}</h4>
+                      <hr>
+                      <p ><i class="fa fa-money"> </i> {{house.price}}<span style="border-left: 1px solid rgb(30, 177, 164); border-radius: 2px;" class="float-right">
+                        Water Source<br>
+                        
+                        {%for water in house.water%}
+                        {%if water == 'Well'%}
+                        <img class="ml-1" style="height:25px; width:25px;" src="{%static 'img/well.png'%}">
+                        {%endif%}
+                        {%if water == 'Borehole'%}
+                        <img class="ml-1" style="height:25px; width:25px;" src="{%static 'img/pump.png'%}">
+                        {%endif%}
+                        {%if water == 'Pipe'%}
+                        <img class="ml-1" style="height:25px; width:25px;" src="{%static 'img/pipe.png'%}">
+                        {%endif%}
+                        {%endfor%}</span></p>
+                      <p ><i class="fa fa-map-marker"> </i> {{house.location}}.</p>
+                    </div>
+                    <div class="ribbon-holder">
+                    {%if house.property_type == 'Sale'%}
+                    <div class="ribbon sale">SALE</div>
+                    {%else%}
+                    <div class="ribbon new">Rent</div>
+                    {%endif%}
+                  </div>
+                  </div>
+                  
+                  
+                  <hr>
+                  
+                </div>
+                {%endfor%}
+              </div>
+              
+            </div>
+                
+
+               </div>    
+            </div>           
+
+              <div class="pages">
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                  <ul class="pagination">
+                    {%if houses.has_previous%}
+                    <li class="page-item"><a href="?{{page_var}}={{ houses.previous_page_number }}" class="page-link"> <i class="fa fa-angle-double-left"></i></a></li>
+                    {%endif%}
+                    {% for i in houses.paginator.page_range %}
+                    {% if houses.number == i %}
+                    <li class="page-item active"><a href="?{{page_var}}={{ i }}" class="page-link">{{i}}</a></li>
+                    {%else%}
+                    <li class="page-item "><a href="?{{page_var}}={{ i }}" class="page-link">{{i}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {%if houses.has_next%}
+                    <li class="page-item"><a href="?{{page_var}}={{ houses.next_page_number }}" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                    {%endif%}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endblock%}
+     
